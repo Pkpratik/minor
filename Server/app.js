@@ -2,11 +2,13 @@ const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
-
+const cors = require("cors")
 const app = express();
+app.use(cors())
 
 mongoose.connect(
-  "mongodb+srv://administrator:administrator@cluster0.gqs94.mongodb.net/readerscorner?retryWrites=true&w=majority"
+  "mongodb+srv://administrator:administrator@cluster0.gqs94.mongodb.net/readerscorner?retryWrites=true&w=majority",
+  { useNewUrlParser: true, useUnifiedTopology: true }
 );
 mongoose.connection.once("open", () => {
   console.log("connected");

@@ -1,29 +1,47 @@
+const _ = require("lodash");
 const graphql = require("graphql");
 const Book = require("./models/book");
 const Author = require("./models/Author");
-const _ = require("lodash");
 
 const {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLSchema,
   GraphQLID,
   GraphQLInt,
   GraphQLList,
+  GraphQLFloat,
+  GraphQLString,
+  GraphQLSchema,
   GraphQLNonNull,
+  GraphQLObjectType,
 } = graphql;
 
 const BookType = new GraphQLObjectType({
   name: "Book",
   fields: () => ({
     id: { type: GraphQLID },
+    isbn: { type: GraphQLString },
     name: { type: GraphQLString },
-    gener: { type: GraphQLString },
+    rating: { type: GraphQLFloat },
+    genre: { type: new GraphQLList(GraphQLString) },
+    image: { type: GraphQLString },
+    description: { type: GraphQLString },
     author: {
-      type: AuthorType,
+      type: new GraphQLList(AuthorType),
       resolve(parent, args) {
+        //console.log(parent);
+        //console.log(parent.author);
+        //console.log(parent.author[0]);
+        //console.log(Author.find({ name: "Harper Lee" }));
         //return _.find(authors, { id: parent.authorId });
-        return Author.findById(parent.authorId);
+        //authname = [];
+        //authname.push(Author.findById("5f62761f6bdefe1788871a6d"));
+        //console.log(authname);
+        //for (i = 0; i < parent.author.length; i++) {
+        //console.log(parent.author[i]);
+        //authname.push(Author.find({ name: parent.author[i] }));
+        //}
+        //console.log(authname);
+        //return Author.findById(parent.authorId);
+        return Author.find({ name: parent.author });
       },
     },
   }),
@@ -32,14 +50,14 @@ const BookType = new GraphQLObjectType({
 const AuthorType = new GraphQLObjectType({
   name: "Author",
   fields: () => ({
-    id: { type: GraphQLID },
+    _id: { type: GraphQLID },
     name: { type: GraphQLString },
-    age: { type: GraphQLInt },
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args) {
+        //console.log(parent);
         //return _.filter(books, { authorId: parent.id });
-        return Book.find({ authorId: parent.id });
+        return Book.find({ author: parent.name });
       },
     },
   }),
@@ -50,7 +68,7 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     book: {
       type: BookType,
-      args: { id: { type: GraphQLID } },
+      args: { _id: { type: GraphQLID } },
       resolve(parent, args) {
         //return _.find(books, { id: args.id });
         return Book.findById(args.id);
@@ -78,6 +96,19 @@ const RootQuery = new GraphQLObjectType({
         return Author.find({});
       },
     },
+    genre: {
+      type: new GraphQLList(BookType),
+      args: { genre: { type: GraphQLString } },
+      resolve(parent, args) {
+        return Book.find({ genre: args.genre });
+      },
+    },
+    rating: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return Book.aggregate([{ $sort: { rating: -1 } }]);
+      },
+    },
   },
 });
 
@@ -88,12 +119,10 @@ const Mutation = new GraphQLObjectType({
       type: AuthorType,
       args: {
         name: { type: new GraphQLNonNull(GraphQLString) },
-        age: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve(parent, args) {
         let author = new Author({
           name: args.name,
-          age: args.age,
         });
         return author.save();
       },
@@ -101,15 +130,21 @@ const Mutation = new GraphQLObjectType({
     addBook: {
       type: BookType,
       args: {
+        image: { type: GraphQLString },
+        description: { type: GraphQLString },
+        rating: { type: GraphQLNonNull(GraphQLFloat) },
         name: { type: new GraphQLNonNull(GraphQLString) },
-        gener: { type: new GraphQLNonNull(GraphQLString) },
-        authorId: { type: new GraphQLNonNull(GraphQLID) },
+        genre: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
+        author: { type: new GraphQLNonNull(new GraphQLList(GraphQLString)) },
       },
       resolve(parent, args) {
         let book = new Book({
           name: args.name,
-          gener: args.gener,
-          authorId: args.authorId,
+          image: args.image,
+          genre: args.genre,
+          rating: args.rating,
+          author: args.author,
+          description: args.description,
         });
         return book.save();
       },
