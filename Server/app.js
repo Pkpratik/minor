@@ -1,10 +1,11 @@
 const express = require("express");
-const { graphqlHTTP } = require("express-graphql");
+const  {graphqlHTTP}  = require("express-graphql");
 const schema = require("./schema/schema");
 const mongoose = require("mongoose");
+//need to see
 const cors = require("cors")
 const app = express();
-app.use(cors())
+app.use(cors());
 
 mongoose.connect(
   "mongodb+srv://administrator:administrator@cluster0.gqs94.mongodb.net/readerscorner?retryWrites=true&w=majority",

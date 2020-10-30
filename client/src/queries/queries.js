@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import { gql, useQuery } from '@apollo/client';
 
 const getAuthorsQuery = gql`
     {

@@ -1,43 +1,53 @@
-import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import { getBooksQuery } from '../queries/queries';
+import React, { useState } from "react";
+//import { graphql } from 'react-apollo'
+//import {getBooksQuery} from "../queries/queries"
+import { gql, useQuery } from "@apollo/client";
+import BookDetail from "./BookDetails";
 
-// components
-import BookDetails from './BookDetails';
-
-class BookList extends Component {
-    constructor(props){
-        super(props);
-        console.log("this"+props);
-        this.state = {
-            selected: null
-        }
+const getBooksQuery = gql`
+  {
+    books {
+      name
+      id
+      genre
+      author {
+        name
+      }
+      description
+      rating
+      image
     }
-    displayBooks(){
-        console.log(this.props);
-        console.log(this.props.data);
-        var data = this.props.data;
-        if(data.loading){
-            return( <div>Loading books...</div> );
-        } else {
-            console.log(">>>>>>>>>>>>>"+data.books)
-            return data.books.map(book => {
-                return(
-                    <li key={ book.id } onClick={ (e) => this.setState({ selected: book.id }) }>{ book.name }</li>
-                );
-            })
-        }
-    }
-    render(){
-        return(
-            <div>
-                <ul id="book-list">
-                    { this.displayBooks() }
-                </ul>
-                <BookDetails bookId={ this.state.selected } />
-            </div>
-        );
-    }
+  }
+`;
+function BooksDisplay() {
+  const { loading, error, data } = useQuery(getBooksQuery);
+  var [selected, setSelected] = useState("");
+  if (loading) return <p>Loading....</p>;
+  if (error) return <p>Ops! Something went wrong</p>;
+  //   console.log(selected);
+  return (
+    <div>
+      <ul id="book-list">
+        {data.books.map((book) => (
+          <li
+            key={book.id}
+            onClick={(e) => {
+              setSelected(book.id);
+            }}>
+            {book.name}
+          </li>
+        ))}
+      </ul>
+      <BookDetail bookid={selected} />
+    </div>
+  );
+}
+function BookList() {
+  return (
+    <div>
+      <div>{BooksDisplay()}</div>
+    </div>
+  );
 }
 
-export default graphql(getBooksQuery)(BookList);
+export default BookList;
