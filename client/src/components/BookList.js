@@ -2,7 +2,7 @@ import React, { useState } from "react";
 //import { graphql } from 'react-apollo'
 //import {getBooksQuery} from "../queries/queries"
 import { gql, useQuery } from "@apollo/client";
-import BookDetail from "./BookDetails";
+// import BookDetail from "./BookDetails";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 const getBooksQuery = gql`
   {
@@ -73,7 +73,7 @@ function BooksDisplay() {
           </div>
         ))}
       </div>
-      <BookDetail bookid={selected} />
+      {/* <BookDetail bookid={selected} /> */}
     </div>
   );
 }
