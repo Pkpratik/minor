@@ -29,17 +29,13 @@ body{
     cursor: pointer;
     color: #880E4F;
 }
-#form-box{
-    position:relative;
-    left: 0;
-    bottom : 0 !important;
-}
+
 form{
     background: #fff;
     padding: 20px;
-    position: absolute;
+    position: fixed;
     left: 0;
-    bottom : 0 !important;
+    bottom: 0;
     width: 400px;
 }
 
