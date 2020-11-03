@@ -3,6 +3,8 @@ import React, { useState } from "react";
 //import {getBooksQuery} from "../queries/queries"
 import { gql } from "@apollo/client";
 import { useQuery, useMutation } from "@apollo/react-hooks";
+import "./book_data_new.json";
+
 const getAuthorsQuery = gql`
   {
     authors {

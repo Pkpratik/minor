@@ -18,7 +18,7 @@ class App extends Component {
         <div id="main">
           <h1>Readers corner</h1>
           <BookList />
-          <AddBook />
+        <AddBook />
         </div>
       </ApolloProvider>
     );
