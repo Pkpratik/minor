@@ -24,7 +24,6 @@ const getBooksQuery = gql`
 `;
 function BooksDisplay() {
   const { loading, error, data } = useQuery(getBooksQuery);
-  var [selected, setSelected] = useState("");
   if (loading) return <p>Loading....</p>;
   if (error) return <p>Ops! Something went wrong</p>;
   console.log(data.books);
