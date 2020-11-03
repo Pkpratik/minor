@@ -3,8 +3,8 @@ import React, { useState } from "react";
 //import {getBooksQuery} from "../queries/queries"
 import { gql, useQuery } from "@apollo/client";
 // import BookDetail from "./BookDetails";
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "../../node_modules/bootstrap/dist/js/bootstrap.bundle";
+// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "../../node_modules/bootstrap/dist/js/bootstrap.bundle";
 
 
 const getBooksQuery = gql`
