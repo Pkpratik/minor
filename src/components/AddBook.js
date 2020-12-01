@@ -3,7 +3,7 @@ import React, { useState } from "react";
 //import {getBooksQuery} from "../queries/queries"
 import { gql } from "@apollo/client";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-import "./book_data_new.json";
+
 
 const getAuthorsQuery = gql`
   {
@@ -60,6 +60,7 @@ function AuthorDisplay() {
   const { loading, error, data } = useQuery(getAuthorsQuery);
   if (loading) return <option disabled>Loading Authors...</option>;
   if (error) console.log(error);
+  console.log(data);
   return data.authors.map((author) => {
     return (
       <option key={author._id} value={author.name}>
