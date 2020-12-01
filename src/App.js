@@ -9,7 +9,7 @@ import Search from "./components/Search";
 
 // apollo client setup
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql/",
+  uri: "https://readers-corner-backend.herokuapp.com/graphql/",
 });
 
 class App extends Component {
