@@ -12,7 +12,38 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+::placeholder {
+  color:#f48fb1 !important;
+}
 
+input[type="text"] {
+  border: 1px solid #f48fb1;
+  border-radius: 0px !important;
+  box-shadow: 0px 0.5px 3px #f48fb1;
+}
+
+input[type="text"]:focus {
+  box-shadow: 0px 0.5px 8px #f48fb1;
+  border: 1px solid #f48fb1;
+}
+
+button.search_btn {
+  border: 1px solid #f48fb1;
+  border-radius: 0 !important;
+  box-shadow: 0.5px 1px 4px #f48fb1;
+  margin-top: 10px;
+  color: #f48fb1;
+  margin-left: 8px;
+}
+
+button.search_btn:first-child {
+  margin-right: 0px;
+}
+
+button.search_btn:hover {
+  color: white;
+  background: #f48fb1;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

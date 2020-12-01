@@ -16,9 +16,9 @@ const getAuthorsQuery = gql`
 const addBookMutation = gql`
   mutation(
     $name: String!
-    $genre: [String]!
+    $genre: String!
     $rating: Float!
-    $author: [String]!
+    $author: String!
     $description: String
     $image: String
   ) {
@@ -153,9 +153,10 @@ function AddBook() {
             {AuthorDisplay()}
           </select>
         </div>
-        <button>+</button>
+        <button >+</button>
       </form>
     </div>
+    // onClick={setBook({name:"",author:"",description:"",rating:"",genre:"",image:""})}
     // <div>
     // {AuthorDisplay()}
     // </div>
