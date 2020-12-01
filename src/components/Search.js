@@ -1,26 +1,26 @@
 import React from "react";
 //import { graphql } from 'react-apollo'
 //import {getBooksQuery} from "../queries/queries"
-import { gql, useQuery } from "@apollo/client";
+//import { gql, useQuery } from "@apollo/client";
 // import BookDetail from "./BookDetails";
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "../../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "../App.css"
-const getBooksQuery = gql`
-  {
-    genre {
-      name
-      id
-      genre
-      author {
-        name
-      }
-      description
-      rating
-      image
-    }
-  }
-`;
+// const getBooksQuery = gql`
+//   {
+//     genre {
+//       name
+//       id
+//       genre
+//       author {
+//         name
+//       }
+//       description
+//       rating
+//       image
+//     }
+//   }
+// `;
 
 export default function Search() {
     return (
