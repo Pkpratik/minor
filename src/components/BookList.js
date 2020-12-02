@@ -56,6 +56,67 @@ function BooksDisplay() {
         name(name: $searchVal) {
           name
           description
+          id
+          rating
+          genre
+          image
+          author {
+            name
+            books {
+              name
+            }
+          }
+        }
+      }
+    `)
+    }if (searchby==="description"){
+
+      return(gql`
+      query ($searchVal: String!) {
+        description(description: $searchVal) {
+          name
+          description
+          rating
+          id
+          genre
+          image
+          author {
+            name
+            books {
+              name
+            }
+          }
+        }
+      }
+    `)
+    }if (searchby==="genre"){
+
+      return(gql`
+      query ($searchVal: String!) {
+        genre(genre: $searchVal) {
+          name
+          description
+          id
+          rating
+          genre
+          image
+          author {
+            name
+            books {
+              name
+            }
+          }
+        }
+      }
+    `)
+    }if (searchby==="rating"){
+
+      return(gql`
+        {
+        rating{
+          name
+          description
+          id
           rating
           genre
           image
@@ -100,11 +161,20 @@ function BooksDisplay() {
 
   if (searchby==="books"){
     finaldata=data.books
-    
   }
   if (searchby==="name"){
     finaldata=data.name
   }
+  if (searchby==="rating"){
+    finaldata=data.rating
+  }
+  if (searchby==="description"){
+    finaldata=data.description
+  }
+  if (searchby==="genre"){
+    finaldata=data.genre
+  }
+
   console.log("finaldata=",finaldata);
   return (
     <div>
@@ -121,10 +191,10 @@ function BooksDisplay() {
 
 <div className="row">
     <div className="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1 text-center">
-        <button type="button" onClick={()=>{handleSearchByName("name")}} className="btn search_btn" id="by_book" >Search By Book Name</button>
-        <button type="button" onClick={()=>{handleSearchByName("rating")}} className="btn search_btn" id="by_author">Search By Rating</button>
+        <button type="button" onClick={()=>{handleSearchByName("name")}} className="btn search_btn" id="by_book_name" >Search By Book Name</button>
+        <button type="button" onClick={()=>{handleSearchByName("rating")}} className="btn search_btn" id="by_rating">Search By Rating</button>
         <button type="button" onClick={()=>{handleSearchByName("genre")}} className="btn search_btn" id="by_genre">Search by Genre</button>
-        <button type="button" onClick={()=>{handleSearchByName("description")}} className="btn search_btn" id="by_rating">Advance Search</button>
+        <button type="button" onClick={()=>{handleSearchByName("description")}} className="btn search_btn" id="by_description">Advance Search</button>
     </div>
 </div>
 </div>

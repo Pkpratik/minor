@@ -9,7 +9,7 @@ import { ApolloProvider } from "react-apollo";
 
 // apollo client setup
 const client = new ApolloClient({
-  uri: "https://readers-corner-backend.herokuapp.com/graphql/",
+  uri: "/.netlify/functions/graphql",
 });
 
 class App extends Component {
