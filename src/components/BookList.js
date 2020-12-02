@@ -1,39 +1,138 @@
-import React from "react";
+import React,{useState} from "react";
 //import { graphql } from 'react-apollo'
 //import {getBooksQuery} from "../queries/queries"
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery,useLazyQuery } from "@apollo/client";
 // import BookDetail from "./BookDetails";
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "../../node_modules/bootstrap/dist/js/bootstrap.bundle";
+import "../App.css"
 
-
-const getBooksQuery = gql`
-  {
-    books {
+const getBooksByName = gql`
+{
+  name(name: $name) {
+    name
+    description
+    rating
+    genre
+    image
+    author {
       name
-      id
-      genre
-      author {
+      books {
         name
       }
-      description
-      rating
-      image
     }
   }
+}
 `;
+
+
+
 function BooksDisplay() {
-  const { loading, error, data } = useQuery(getBooksQuery);
+  const [searchquery, setSearchquery] = useState({searchby:"books"})
+  let {searchby}=searchquery
+  console.log("searchquery = ",searchquery);
+  console.log("searchby = ",searchby);
+  function getBooksQuery(){
+    if (searchby==="books"){
+      return(gql`
+      {
+        books {
+          name
+          id
+          genre
+          author {
+            name
+          }
+          description
+          rating
+          image
+        }
+      }
+    `)
+    }if (searchby==="name"){
+
+      return(gql`
+      query ($searchVal: String!) {
+        name(name: $searchVal) {
+          name
+          description
+          rating
+          genre
+          image
+          author {
+            name
+            books {
+              name
+            }
+          }
+        }
+      }
+    `)
+    }
+    
+
+}
+
+  let finaldata;
+  const [search, setSearch] = useState({searchVal:""})
+  let {search:searchVal}=search
+  const { loading, error, data,refetch } = useQuery(getBooksQuery(), {
+    variables: { searchVal },
+  });
+  //const { loading1, error1, data1 } = useLazyQuery(getBooksByName,{variables:{searchVal}});
+  
+  //[getBookName,{data}]  = useLazyQuery(getBooksByName);
+  // data  = useLazyQuery(getBooksQuery);
+  console.log(data);
+  //const { loading, error, data } = useLazyQuery(getBooksQuery);
+  console.log(search,searchVal,typeof(searchVal));
   if (loading) return <p>Loading....</p>;
   if (error) return <p>Ops! Something went wrong</p>;
-  console.log(data.books);
-  console.log(data.books);
+
+  const handleChange = (key) => (event) => {
+    setSearch({[key]: event.target.value });
+  };
+  const handleSearchByName = (key) => {
+    //data = useQuery(getBooksByName)
+    setSearchquery({searchby:key});
+    
+  };
+
+  if (searchby==="books"){
+    finaldata=data.books
+    
+  }
+  if (searchby==="name"){
+    finaldata=data.name
+  }
+  console.log("finaldata=",finaldata);
   return (
     <div>
+      <div>
+    <div className="container mt-5">
+<div className="row">
+    <div className="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1">
+        <div className="form-group">
+            <input type="text" value={searchVal} onChange={handleChange("search")} className="form-control" name="search_field" id="search_field"
+                placeholder="Search Your Results...." />
+        </div>
+    </div>
+</div>
+
+<div className="row">
+    <div className="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1 text-center">
+        <button type="button" onClick={()=>{handleSearchByName("name")}} className="btn search_btn" id="by_book" >Search By Book Name</button>
+        <button type="button" onClick={()=>{handleSearchByName("rating")}} className="btn search_btn" id="by_author">Search By Rating</button>
+        <button type="button" onClick={()=>{handleSearchByName("genre")}} className="btn search_btn" id="by_genre">Search by Genre</button>
+        <button type="button" onClick={()=>{handleSearchByName("description")}} className="btn search_btn" id="by_rating">Advance Search</button>
+    </div>
+</div>
+</div>
+</div>
       <div id="book-list">
         <div className="container-fluid my-5 books_section">
           <div className="row">
-            {data.books.map((book,index) => (
+            {finaldata.map((book,index) => (
               <div className="col-xl-3 col-lg-4 col-sm-6 col-12 mt-4">
                 <div className="card h-100">
                   <img src={book.image} className="card-img-top" alt="..." />
@@ -76,11 +175,10 @@ function BooksDisplay() {
                 </div>
               </div>
             ))}
+            
           </div>
         </div>
-        F
       </div>
-      {/* <BookDetail bookid={selected} /> */}
     </div>
   );
 }

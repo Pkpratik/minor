@@ -60,7 +60,6 @@ function AuthorDisplay() {
   const { loading, error, data } = useQuery(getAuthorsQuery);
   if (loading) return <option disabled>Loading Authors...</option>;
   if (error) console.log(error);
-  console.log(data);
   return data.authors.map((author) => {
     return (
       <option key={author._id} value={author.name}>

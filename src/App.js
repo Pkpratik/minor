@@ -3,7 +3,7 @@ import BookList from "./components/BookList";
 import AddBook from "./components/AddBook";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import Search from "./components/Search";
+//import Search from "./components/Search";
 
 // components
 
@@ -18,7 +18,6 @@ class App extends Component {
       <ApolloProvider client={client}>
         <div id="main">
           <h1>Readers corner</h1>
-          <Search />
           <BookList />
         <AddBook />
         </div>
