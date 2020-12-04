@@ -6,25 +6,41 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+button#open_book_form {
+  font-weight: bold;
+  position: fixed;
+  bottom: 15px;
+  right: 20px;
+  font-size: 32px;
+  padding: 3px 15px 7px 15px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
-::placeholder {
+input[name="search_field"]::placeholder {
   color:#f48fb1 !important;
 }
 
-input[type="text"] {
+input[name="search_field"] {
   border: 1px solid #f48fb1;
   border-radius: 0px !important;
   box-shadow: 0px 0.5px 3px #f48fb1;
 }
 
-input[type="text"]:focus {
+input[name="search_field"]:focus {
   box-shadow: 0px 0.5px 8px #f48fb1;
   border: 1px solid #f48fb1;
+}
+button#clear_search_field {
+  border-radius: 0 !important;
+  background: #f48fb1;
+  color: white;
+  box-shadow: 0.5px 1px 4px #f48fb1;
+}
+button#clear_search_field:hover  {
+  background: #f06292;
 }
 
 button.search_btn {

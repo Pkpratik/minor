@@ -89,7 +89,7 @@ function AddBook() {
   const handleChange = (key) => (event) => {
     setBook({ ...book, [key]: event.target.value });
   };
-
+console.log(book);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("mutation data", dataMutation);
@@ -120,21 +120,83 @@ function AddBook() {
   //   // });
   // }
   return (
-    <div id="form-box">
+<>
+<button type="button"  className="btn btn-info rounded-circle" data-toggle="modal" id="open_book_form" data-target="#openBookForm">
+    +
+</button>
+
+
+<div className="modal fade" id="openBookForm" tabIndex="-1" aria-labelledby="addBook" aria-hidden="true">
+    <div className="modal-dialog">
+        <div className="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title" id="addBook">Add a Book</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div className="modal-body">
+                <form action="#" id="add-book" >
+
+                    <div className="form-group">
+                        <label htmlFor="book_name" className="col-form-label">Book Name:</label>
+                        <input type="text" id="book_name" onChange={handleChange("name")} value={name} className="form-control rounded-0" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="book_genre" className="col-form-label">Book Genre:</label>
+                        <input type="text" id="book_genre" onChange={handleChange("genre")} value={genre} className="form-control rounded-0" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="book_genre" className="col-form-label">Book Rating:</label>
+                        <input type="number" id="book_rating" onChange={handleChange("rating")} value={rating} className="form-control rounded-0" min="0" max="5"
+                            step="0.1" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="book_description" className="col-form-label">Book Description:</label>
+                        <textarea id="book_description" rows="3" className="form-control rounded-0" required onChange={handleChange("description")} value={description}></textarea>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="book_image_url" className="col-form-label">Image URL:</label>
+                        <input type="url" className="form-control rounded-0" id="book_image_url" onChange={handleChange("image")} value={image}
+                            placeholder="https://www.example.com/" required />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="book_author">Authors:</label>
+                        <select className="custom-select rounded-0" onChange={handleChange("author")} value={author} id="book_author">
+                            <option >Select an Author</option>
+                            {AuthorDisplay()}
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div className="modal-footer">
+                <button type="button" className="btn btn-secondary rounded" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-info rounded" onClick={handleSubmit} data-dismiss="modal">Add Book</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    {/* <div id="form-box">
       <form id="add-book" onSubmit={handleSubmit}>
-        <div className="field">
+        <div classNameName="field">
           <label>Book name:</label>
           <input type="text" onChange={handleChange("name")} value={name} />
         </div>
-        <div className="field">
+        <div classNameName="field">
           <label>Genre:</label>
           <input type="text" onChange={handleChange("genre")} value={genre} />
         </div>
-        <div className="field">
+        <div classNameName="field">
           <label>Rating:</label>
           <input type="text" onChange={handleChange("rating")} value={rating} />
         </div>
-        <div className="field">
+        <div classNameName="field">
           <label>Description:</label>
           <input
             type="text"
@@ -142,11 +204,11 @@ function AddBook() {
             value={description}
           />
         </div>
-        <div className="field">
+        <div classNameName="field">
           <label>Image Url:</label>
           <input type="text" onChange={handleChange("image")} value={image} />
         </div>
-        <div className="field">
+        <div classNameName="field">
           <label>Author:</label>
           <select onChange={handleChange("author")} value={author}>
             <option>Select author</option>
@@ -155,7 +217,8 @@ function AddBook() {
         </div>
         <button >+</button>
       </form>
-    </div>
+    </div> */}
+    </>
     // onClick={setBook({name:"",author:"",description:"",rating:"",genre:"",image:""})}
     // <div>
     // {AuthorDisplay()}
@@ -186,15 +249,15 @@ export default AddBook;
 
 //         return(
 //             <form id="add-book" onSubmit={ SubmitForm.bind(this) } >
-//                 <div className="field">
+//                 <div classNameName="field">
 //                     <label>Book name:</label>
 //                     <input type="text" onChange={ (e) => setBook({ name: e.target.value }) } />
 //                 </div>
-//                 <div className="field">
+//                 <div classNameName="field">
 //                     <label>Genre:</label>
 //                     <input type="text" onChange={ (e) => setBook({ genre: e.target.value }) } />
 //                 </div>
-//                 <div className="field">
+//                 <div classNameName="field">
 //                     <label>Author:</label>
 //                     <select onChange={ (e) => setBook({ author: e.target.value }) } >
 //                         <option>Select author</option>

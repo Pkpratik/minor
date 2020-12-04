@@ -30,14 +30,7 @@ body{
     color: #880E4F;
 }
 
-form{
-    background: #fff;
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 400px;
-}
+
 
 form .field{
     display: grid;

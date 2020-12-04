@@ -1,39 +1,25 @@
 import React,{useState} from "react";
 //import { graphql } from 'react-apollo'
 //import {getBooksQuery} from "../queries/queries"
-import { gql, useQuery,useLazyQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 // import BookDetail from "./BookDetails";
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "../../node_modules/bootstrap/dist/js/bootstrap.bundle";
 import "../App.css"
 
-const getBooksByName = gql`
-{
-  name(name: $name) {
-    name
-    description
-    rating
-    genre
-    image
-    author {
-      name
-      books {
-        name
-      }
-    }
-  }
-}
-`;
+
 
 
 
 function BooksDisplay() {
+  let refetchquery
+
   const [searchquery, setSearchquery] = useState({searchby:"books"})
   let {searchby}=searchquery
   console.log("searchquery = ",searchquery);
   console.log("searchby = ",searchby);
   function getBooksQuery(){
-    if (searchby==="books"){
+    if (searchby==="books") {
       return(gql`
       {
         books {
@@ -49,7 +35,7 @@ function BooksDisplay() {
         }
       }
     `)
-    }if (searchby==="name"){
+    }if (searchby==="name" ){
 
       return(gql`
       query ($searchVal: String!) {
@@ -62,9 +48,7 @@ function BooksDisplay() {
           image
           author {
             name
-            books {
-              name
-            }
+            
           }
         }
       }
@@ -82,14 +66,12 @@ function BooksDisplay() {
           image
           author {
             name
-            books {
-              name
-            }
+            
           }
         }
       }
     `)
-    }if (searchby==="genre"){
+    }if (searchby==="genre" ){
 
       return(gql`
       query ($searchVal: String!) {
@@ -102,13 +84,30 @@ function BooksDisplay() {
           image
           author {
             name
-            books {
-              name
-            }
+            
           }
         }
       }
     `)
+  }if (searchby==="author" ){
+
+    return(gql`
+    query ($searchVal: String!) {
+      authorbooks(author: $searchVal) {
+        name
+        description
+        id
+        rating
+        genre
+        image
+        author {
+          name
+          
+        }
+      }
+    }
+  `)
+  }if (searchby==="rating"){
     }if (searchby==="rating"){
 
       return(gql`
@@ -122,9 +121,7 @@ function BooksDisplay() {
           image
           author {
             name
-            books {
-              name
-            }
+            
           }
         }
       }
@@ -137,7 +134,7 @@ function BooksDisplay() {
   let finaldata;
   const [search, setSearch] = useState({searchVal:""})
   let {search:searchVal}=search
-  const { loading, error, data,refetch } = useQuery(getBooksQuery(), {
+  const { loading, error, data } = useQuery(getBooksQuery(), {
     variables: { searchVal },
   });
   //const { loading1, error1, data1 } = useLazyQuery(getBooksByName,{variables:{searchVal}});
@@ -145,6 +142,7 @@ function BooksDisplay() {
   //[getBookName,{data}]  = useLazyQuery(getBooksByName);
   // data  = useLazyQuery(getBooksQuery);
   console.log(data);
+  console.log("refetchquery = ",refetchquery);
   //const { loading, error, data } = useLazyQuery(getBooksQuery);
   console.log(search,searchVal,typeof(searchVal));
   if (loading) return <p>Loading....</p>;
@@ -153,48 +151,65 @@ function BooksDisplay() {
   const handleChange = (key) => (event) => {
     setSearch({[key]: event.target.value });
   };
-  const handleSearchByName = (key) => {
+  const handleSearchBy = (key) => {
     //data = useQuery(getBooksByName)
     setSearchquery({searchby:key});
-    
+    refetchquery=1;
+    if (key === "books"){
+      setSearch("")
+    }
   };
 
   if (searchby==="books"){
     finaldata=data.books
+    refetchquery=0
+    
   }
   if (searchby==="name"){
     finaldata=data.name
+    refetchquery=0
   }
   if (searchby==="rating"){
     finaldata=data.rating
+    refetchquery=0
   }
   if (searchby==="description"){
     finaldata=data.description
+    refetchquery=0
   }
   if (searchby==="genre"){
     finaldata=data.genre
+    refetchquery=0
+  }
+  if (searchby==="author"){
+    finaldata=data.authorbooks
+    refetchquery=0
   }
 
-  console.log("finaldata=",finaldata);
+  //console.log("finaldata=",finaldata);
   return (
     <div>
       <div>
     <div className="container mt-5">
 <div className="row">
     <div className="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1">
-        <div className="form-group">
+        <div className="input-group">
             <input type="text" value={searchVal} onChange={handleChange("search")} className="form-control" name="search_field" id="search_field"
                 placeholder="Search Your Results...." />
+                <div className="input-group-append">
+                        <button className="btn px-3" onClick={()=>handleSearchBy("books")} id="clear_search_field">X</button>
+                    </div>
         </div>
     </div>
 </div>
 
 <div className="row">
-    <div className="col-lg-8 col-md-8 col-sm-10 offset-lg-2 offset-md-2 offset-sm-1 text-center">
-        <button type="button" onClick={()=>{handleSearchByName("name")}} className="btn search_btn" id="by_book_name" >Search By Book Name</button>
-        <button type="button" onClick={()=>{handleSearchByName("rating")}} className="btn search_btn" id="by_rating">Search By Rating</button>
-        <button type="button" onClick={()=>{handleSearchByName("genre")}} className="btn search_btn" id="by_genre">Search by Genre</button>
-        <button type="button" onClick={()=>{handleSearchByName("description")}} className="btn search_btn" id="by_description">Advance Search</button>
+    <div className="col-lg-10 col-md-10 col-sm-10 offset-lg-1 offset-md-1 offset-sm-1 text-center">
+        <button type="button" onClick={()=>{handleSearchBy("name")}} className="btn search_btn" id="by_book_name" >Search By Book Name</button>
+        <button type="button" onClick={()=>{handleSearchBy("genre")}} className="btn search_btn" id="by_genre">Search by Genre</button>
+        <button type="button" onClick={()=>{handleSearchBy("description")}} className="btn search_btn" id="by_description">Advance Search</button>
+        <button type="button" onClick={()=>{handleSearchBy("rating")}} className="btn search_btn" id="by_rating">Sort by Rating</button>
+        <button type="button" onClick={()=>{handleSearchBy("author")}} className="btn search_btn" id="by_author">Search by Author</button>
     </div>
 </div>
 </div>
@@ -203,7 +218,7 @@ function BooksDisplay() {
         <div className="container-fluid my-5 books_section">
           <div className="row">
             {finaldata.map((book,index) => (
-              <div className="col-xl-3 col-lg-4 col-sm-6 col-12 mt-4">
+              <div className="col-xl-3 col-lg-4 col-sm-6 col-12 mt-4" key={index}>
                 <div className="card h-100">
                   <img src={book.image} className="card-img-top" alt="..." />
                   <div className="card-body">
