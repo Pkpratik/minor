@@ -127,8 +127,6 @@ function BooksDisplay() {
       }
     `)
     }
-    
-
 }
 
   let finaldata;
@@ -208,8 +206,8 @@ function BooksDisplay() {
         <button type="button" onClick={()=>{handleSearchBy("name")}} className="btn search_btn" id="by_book_name" >Search By Book Name</button>
         <button type="button" onClick={()=>{handleSearchBy("genre")}} className="btn search_btn" id="by_genre">Search by Genre</button>
         <button type="button" onClick={()=>{handleSearchBy("description")}} className="btn search_btn" id="by_description">Advance Search</button>
-        <button type="button" onClick={()=>{handleSearchBy("rating")}} className="btn search_btn" id="by_rating">Sort by Rating</button>
         <button type="button" onClick={()=>{handleSearchBy("author")}} className="btn search_btn" id="by_author">Search by Author</button>
+        <button type="button" onClick={()=>{handleSearchBy("rating")}} className="btn search_btn" id="by_rating">Sort by Rating</button>
     </div>
 </div>
 </div>

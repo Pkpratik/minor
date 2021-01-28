@@ -22,7 +22,42 @@ button#open_book_form {
 input[name="search_field"]::placeholder {
   color:#f48fb1 !important;
 }
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
 
+        .navbar {
+            box-shadow: 0px 1.5px 3px lightgrey;
+        }
+
+        .navbar-brand {
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 23px;
+        }
+
+        .navbar-toggler, .navbar-toggler-icon {
+            border: none;
+            outline: none !important;
+        }
+
+        @media screen and (max-width: 500px) {
+            .navbar-brand {
+                font-size: 20px;
+            }
+        }
+
+        img#profile_img {
+            width: 35px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+        }
+
+        #user_name {
+            transform: translateY(7px);
+        }d
 input[name="search_field"] {
   border: 1px solid #f48fb1;
   border-radius: 0px !important;
