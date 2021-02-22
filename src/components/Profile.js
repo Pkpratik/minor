@@ -7,7 +7,7 @@ export default function Profile() {
     return (
         isAuthenticated && (<>
             
-            {console.log("working profile",JSON.stringify(user,null,2))}
+            {console.log(JSON.stringify(user,null,2))}
         
             <li class="nav-item">
                     <p className="nav-link" ><img src={user.picture} class="rounded-circle" id="profile_img"

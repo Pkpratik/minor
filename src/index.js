@@ -15,7 +15,7 @@ const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 // apollo client setup
 const client = new ApolloClient({
-    uri: 'https://readers-corner-backend.herokuapp.com/graphql'
+uri: process.env.NODE_ENV === 'development' ? `http://localhost:4000/graphql` : `https://readers-corner-backend.herokuapp.com/graphql`,
 });
 
 
