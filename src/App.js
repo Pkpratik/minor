@@ -35,7 +35,7 @@ class App extends Component {
             <ul className="navbar-nav ml-auto">
                 <Profile/>
                 <li className="nav-item mr-2">
-                  <LoginButton />
+                <LoginButton /><LoginButton />
                     
                 </li>
                 <li className="nav-item">
